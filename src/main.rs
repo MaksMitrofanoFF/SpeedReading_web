@@ -1,10 +1,13 @@
 extern crate core;
 
+use cgmath::{Deg, Matrix4, SquareMatrix, vec3};
 use std::fs::File;
+// use std::intrinsics::{sinf32, sinf64};
 use std::io::Read;
 use notan::app::Event;
 use notan::draw::*;
 use notan::prelude::*;
+use crate::keyboard::KeyCode;
 
 #[derive(AppState)]
 struct State {
@@ -14,6 +17,8 @@ struct State {
     words: Vec<String>,
     speed: f32,
     current_word: f32,
+    background_color: Color,
+    text_color: Color,
 }
 
 // Create a new asset loaded to load .txt files as strings
@@ -35,6 +40,7 @@ fn main() -> Result<(), String> {
         .add_config(notan::log::LogConfig::new(notan::log::LevelFilter::Debug))
         .draw(draw)
         .event(event)
+        .update(update)
         .build()
 }
 
@@ -46,9 +52,11 @@ fn setup(gfx: &mut Graphics) -> State {
         font,
         dragging: 0,
         words: Vec::new(),
-        speed: 60.0,
+        speed: 0.0,
         current_word: 0.0,
-        asset: None
+        asset: None,
+        background_color: Color::BLACK,
+        text_color: Color::WHITE
     }
 }
 
@@ -61,11 +69,12 @@ fn event(assets: &mut Assets, state: &mut State, evt: Event) {
             state.dragging = 0;
         }
         Event::MouseWheel { delta_x, delta_y } => {
-            state.speed += 10.0 * delta_y.signum();
-            if state.speed <= 10.0 {
-                state.speed = 10.0;
+            state.speed -= 10.0 * delta_y.signum();
+            if state.speed <= -180.0 {
+                state.speed = -180.0;
             }
         }
+
         Event::Drop(file) => {
             state.dragging = 0;
 
@@ -77,11 +86,120 @@ fn event(assets: &mut Assets, state: &mut State, evt: Event) {
     }
 }
 
+fn update(app: &mut App, state: &mut State) {
+
+    if app.keyboard.is_down(KeyCode::R) {
+        state.background_color = Color::RED;
+    }
+
+    if app.keyboard.is_down(KeyCode::G) {
+        state.background_color = Color::GREEN;
+    }
+    if app.keyboard.is_down(KeyCode::B) {
+        state.background_color = Color::BLUE;
+    }
+
+    if app.keyboard.is_down(KeyCode::A) {
+        state.background_color = Color::AQUA;
+    }
+
+    if app.keyboard.is_down(KeyCode::S) {
+        state.background_color = Color::MAROON;
+    }
+
+    if app.keyboard.is_down(KeyCode::O) {
+        state.background_color = Color::ORANGE;
+    }
+
+    if app.keyboard.is_down(KeyCode::N) {
+        state.background_color = Color::NAVY;
+    }
+
+    if app.keyboard.is_down(KeyCode::W) {
+        state.background_color = Color::WHITE;
+    }
+
+    if app.keyboard.is_down(KeyCode::L) {
+        state.background_color = Color::BLACK;
+    }
+
+    if app.keyboard.is_down(KeyCode::L) && app.keyboard.is_down(KeyCode::LShift) {
+        state.text_color = Color::BLACK;
+    }
+
+    if app.keyboard.is_down(KeyCode::W) && app.keyboard.is_down(KeyCode::LShift) {
+        state.text_color = Color::WHITE;
+    }
+
+    if app.keyboard.is_down(KeyCode::V) && app.keyboard.is_down(KeyCode::C) {
+        state.text_color = Color::BLACK;
+        state.background_color = Color::WHITE;
+    }
+
+    if app.keyboard.is_down(KeyCode::Z) && app.keyboard.is_down(KeyCode::X) {
+        state.text_color = Color::WHITE;
+        state.background_color = Color::BLACK;
+    }
+
+    if app.mouse.left_is_down() {
+        state.speed = 0.0;
+    }
+
+    if app.keyboard.is_down(KeyCode::M) {
+        state.background_color = Color::MAGENTA;
+    }
+
+    if app.keyboard.is_down(KeyCode::R) && app.keyboard.is_down(KeyCode::LShift) {
+        state.text_color = Color::RED;
+    }
+
+    if app.keyboard.is_down(KeyCode::G) && app.keyboard.is_down(KeyCode::LShift) {
+        state.text_color = Color::GREEN;
+    }
+    if app.keyboard.is_down(KeyCode::B) && app.keyboard.is_down(KeyCode::LShift) {
+        state.text_color = Color::BLUE;
+    }
+
+    if app.keyboard.is_down(KeyCode::A) && app.keyboard.is_down(KeyCode::LShift) {
+        state.text_color = Color::AQUA;
+    }
+
+    if app.keyboard.is_down(KeyCode::S) && app.keyboard.is_down(KeyCode::LShift) {
+        state.text_color = Color::MAROON;
+    }
+
+    if app.keyboard.is_down(KeyCode::O) && app.keyboard.is_down(KeyCode::LShift)  {
+        state.text_color = Color::ORANGE;
+    }
+
+    if app.keyboard.is_down(KeyCode::N) && app.keyboard.is_down(KeyCode::LShift)  {
+        state.text_color = Color::NAVY;
+    }
+
+    if app.mouse.left_is_down() {
+        state.speed = 0.0;
+    }
+
+    if app.keyboard.is_down(KeyCode::M) && app.keyboard.is_down(KeyCode::LShift) {
+        state.text_color = Color::MAGENTA;
+    }
+
+    let time = app.timer.time_since_init();
+    let r = time.sin() * 0.5 + 0.5;
+    let g = (time + 5.0).sin() * 0.5 + 0.5;
+    let b = (time + 10.0).sin() * 0.5 + 0.5;
+
+    if app.keyboard.is_down(KeyCode::Q) && app.keyboard.is_down(KeyCode::W) && app.keyboard.is_down(KeyCode::B){
+        state.background_color = Color::new(r,g,b,1.0);
+        state.text_color = Color::new(b,r,g,1.0);
+    }
+}
+
 fn draw(app: &mut App, gfx: &mut Graphics, state: &mut State) {
     let frame_time = app.timer.delta_f32();
 
     let mut draw = gfx.create_draw();
-    draw.clear(Color::BLACK);
+    draw.clear(state.background_color);
 
     if state.words.is_empty() {
         if let Some(asset) = &state.asset {
@@ -108,7 +226,7 @@ fn draw(app: &mut App, gfx: &mut Graphics, state: &mut State) {
             let index = (state.current_word as usize).min(state.words.len() - 1);
             let word = &state.words[index];
             draw.text(&state.font, word)
-                .color(Color::WHITE)
+                .color(state.text_color)
                 .size(30.0)
                 .v_align_middle()
                 .h_align_center()

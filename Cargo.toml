@@ -12,3 +12,5 @@ features = ["drop_files"]
 [lib]
 crate-type = ["cdylib", "rlib"]
 path = "src/main.rs"
+[dependencies]
+cgmath = "0.18.0"
