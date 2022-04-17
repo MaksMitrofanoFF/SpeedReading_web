@@ -19,6 +19,7 @@ struct State {
     current_word: f32,
     background_color: Color,
     text_color: Color,
+    text_size: f32
 }
 
 // Create a new asset loaded to load .txt files as strings
@@ -56,7 +57,8 @@ fn setup(gfx: &mut Graphics) -> State {
         current_word: 0.0,
         asset: None,
         background_color: Color::BLACK,
-        text_color: Color::WHITE
+        text_color: Color::WHITE,
+        text_size: 32.0,
     }
 }
 
@@ -88,46 +90,46 @@ fn event(assets: &mut Assets, state: &mut State, evt: Event) {
 
 fn update(app: &mut App, state: &mut State) {
 
-    if app.keyboard.is_down(KeyCode::R) {
+    if app.keyboard.is_down(KeyCode::Q) {
         state.background_color = Color::RED;
     }
 
-    if app.keyboard.is_down(KeyCode::G) {
+    if app.keyboard.is_down(KeyCode::W) {
         state.background_color = Color::GREEN;
     }
-    if app.keyboard.is_down(KeyCode::B) {
+    if app.keyboard.is_down(KeyCode::E) {
         state.background_color = Color::BLUE;
     }
 
-    if app.keyboard.is_down(KeyCode::A) {
+    if app.keyboard.is_down(KeyCode::R) {
         state.background_color = Color::AQUA;
     }
 
-    if app.keyboard.is_down(KeyCode::S) {
+    if app.keyboard.is_down(KeyCode::T) {
         state.background_color = Color::MAROON;
     }
 
-    if app.keyboard.is_down(KeyCode::O) {
+    if app.keyboard.is_down(KeyCode::Y) {
         state.background_color = Color::ORANGE;
     }
 
-    if app.keyboard.is_down(KeyCode::N) {
+    if app.keyboard.is_down(KeyCode::U) {
         state.background_color = Color::NAVY;
     }
 
-    if app.keyboard.is_down(KeyCode::W) {
+    if app.keyboard.is_down(KeyCode::I) {
         state.background_color = Color::WHITE;
     }
 
-    if app.keyboard.is_down(KeyCode::L) {
+    if app.keyboard.is_down(KeyCode::O) {
         state.background_color = Color::BLACK;
     }
 
-    if app.keyboard.is_down(KeyCode::L) && app.keyboard.is_down(KeyCode::LShift) {
+    if app.keyboard.is_down(KeyCode::P) {
         state.text_color = Color::BLACK;
     }
 
-    if app.keyboard.is_down(KeyCode::W) && app.keyboard.is_down(KeyCode::LShift) {
+    if app.keyboard.is_down(KeyCode::A) {
         state.text_color = Color::WHITE;
     }
 
@@ -145,34 +147,34 @@ fn update(app: &mut App, state: &mut State) {
         state.speed = 0.0;
     }
 
-    if app.keyboard.is_down(KeyCode::M) {
+    if app.keyboard.is_down(KeyCode::F) {
         state.background_color = Color::MAGENTA;
     }
 
-    if app.keyboard.is_down(KeyCode::R) && app.keyboard.is_down(KeyCode::LShift) {
+    if app.keyboard.is_down(KeyCode::G) {
         state.text_color = Color::RED;
     }
 
-    if app.keyboard.is_down(KeyCode::G) && app.keyboard.is_down(KeyCode::LShift) {
+    if app.keyboard.is_down(KeyCode::H) {
         state.text_color = Color::GREEN;
     }
-    if app.keyboard.is_down(KeyCode::B) && app.keyboard.is_down(KeyCode::LShift) {
+    if app.keyboard.is_down(KeyCode::J) {
         state.text_color = Color::BLUE;
     }
 
-    if app.keyboard.is_down(KeyCode::A) && app.keyboard.is_down(KeyCode::LShift) {
+    if app.keyboard.is_down(KeyCode::K) {
         state.text_color = Color::AQUA;
     }
 
-    if app.keyboard.is_down(KeyCode::S) && app.keyboard.is_down(KeyCode::LShift) {
+    if app.keyboard.is_down(KeyCode::L) {
         state.text_color = Color::MAROON;
     }
 
-    if app.keyboard.is_down(KeyCode::O) && app.keyboard.is_down(KeyCode::LShift)  {
+    if app.keyboard.is_down(KeyCode::B) {
         state.text_color = Color::ORANGE;
     }
 
-    if app.keyboard.is_down(KeyCode::N) && app.keyboard.is_down(KeyCode::LShift)  {
+    if app.keyboard.is_down(KeyCode::N) {
         state.text_color = Color::NAVY;
     }
 
@@ -180,7 +182,7 @@ fn update(app: &mut App, state: &mut State) {
         state.speed = 0.0;
     }
 
-    if app.keyboard.is_down(KeyCode::M) && app.keyboard.is_down(KeyCode::LShift) {
+    if app.keyboard.is_down(KeyCode::M) {
         state.text_color = Color::MAGENTA;
     }
 
@@ -189,9 +191,16 @@ fn update(app: &mut App, state: &mut State) {
     let g = (time + 5.0).sin() * 0.5 + 0.5;
     let b = (time + 10.0).sin() * 0.5 + 0.5;
 
-    if app.keyboard.is_down(KeyCode::Q) && app.keyboard.is_down(KeyCode::W) && app.keyboard.is_down(KeyCode::B){
+    if app.keyboard.is_down(KeyCode::Key1) && app.keyboard.is_down(KeyCode::Key2) && app.keyboard.is_down(KeyCode::Key3){
         state.background_color = Color::new(r,g,b,1.0);
         state.text_color = Color::new(b,r,g,1.0);
+    }
+
+     if app.keyboard.is_down(KeyCode::Up) {
+         state.text_size += 2.0
+     }
+    if app.keyboard.is_down(KeyCode::Down) {
+        state.text_size -= 2.0
     }
 }
 
@@ -227,13 +236,13 @@ fn draw(app: &mut App, gfx: &mut Graphics, state: &mut State) {
             let word = &state.words[index];
             draw.text(&state.font, word)
                 .color(state.text_color)
-                .size(30.0)
+                .size(state.text_size)
                 .v_align_middle()
                 .h_align_center()
                 .position(400.0, 300.0);
 
             draw.text(&state.font, &format!("{} слов в минуту", state.speed))
-                .color(Color::ORANGE)
+                .color(state.text_color)
                 .size(24.0)
                 .v_align_middle()
                 .position(25.0, 25.0);
