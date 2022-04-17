@@ -90,47 +90,43 @@ fn event(assets: &mut Assets, state: &mut State, evt: Event) {
 
 fn update(app: &mut App, state: &mut State) {
 
-    if app.keyboard.is_down(KeyCode::Q) {
+    if app.keyboard.is_down(KeyCode::Key1) {
         state.background_color = Color::RED;
     }
 
-    if app.keyboard.is_down(KeyCode::W) {
+    if app.keyboard.is_down(KeyCode::Key2) {
         state.background_color = Color::GREEN;
     }
-    if app.keyboard.is_down(KeyCode::E) {
+    if app.keyboard.is_down(KeyCode::Key3) {
         state.background_color = Color::BLUE;
     }
 
-    if app.keyboard.is_down(KeyCode::R) {
+    if app.keyboard.is_down(KeyCode::Key4) {
         state.background_color = Color::AQUA;
     }
 
-    if app.keyboard.is_down(KeyCode::T) {
+    if app.keyboard.is_down(KeyCode::Key5) {
         state.background_color = Color::MAROON;
     }
 
-    if app.keyboard.is_down(KeyCode::Y) {
+    if app.keyboard.is_down(KeyCode::Key6) {
         state.background_color = Color::ORANGE;
     }
 
-    if app.keyboard.is_down(KeyCode::U) {
+    if app.keyboard.is_down(KeyCode::Key7) {
         state.background_color = Color::NAVY;
     }
 
-    if app.keyboard.is_down(KeyCode::I) {
+    if app.keyboard.is_down(KeyCode::Key8) {
+        state.background_color = Color::MAGENTA;
+    }
+
+    if app.keyboard.is_down(KeyCode::Key9) {
         state.background_color = Color::WHITE;
     }
 
-    if app.keyboard.is_down(KeyCode::O) {
+    if app.keyboard.is_down(KeyCode::Key0) {
         state.background_color = Color::BLACK;
-    }
-
-    if app.keyboard.is_down(KeyCode::P) {
-        state.text_color = Color::BLACK;
-    }
-
-    if app.keyboard.is_down(KeyCode::A) {
-        state.text_color = Color::WHITE;
     }
 
     if app.keyboard.is_down(KeyCode::V) && app.keyboard.is_down(KeyCode::C) {
@@ -147,43 +143,47 @@ fn update(app: &mut App, state: &mut State) {
         state.speed = 0.0;
     }
 
-    if app.keyboard.is_down(KeyCode::F) {
-        state.background_color = Color::MAGENTA;
-    }
-
-    if app.keyboard.is_down(KeyCode::G) {
+    if app.keyboard.is_down(KeyCode::Q) {
         state.text_color = Color::RED;
     }
 
-    if app.keyboard.is_down(KeyCode::H) {
+    if app.keyboard.is_down(KeyCode::W) {
         state.text_color = Color::GREEN;
     }
-    if app.keyboard.is_down(KeyCode::J) {
+    if app.keyboard.is_down(KeyCode::E) {
         state.text_color = Color::BLUE;
     }
 
-    if app.keyboard.is_down(KeyCode::K) {
+    if app.keyboard.is_down(KeyCode::R) {
         state.text_color = Color::AQUA;
     }
 
-    if app.keyboard.is_down(KeyCode::L) {
+    if app.keyboard.is_down(KeyCode::T) {
         state.text_color = Color::MAROON;
     }
 
-    if app.keyboard.is_down(KeyCode::B) {
+    if app.keyboard.is_down(KeyCode::Y) {
         state.text_color = Color::ORANGE;
     }
 
-    if app.keyboard.is_down(KeyCode::N) {
+    if app.keyboard.is_down(KeyCode::U) {
         state.text_color = Color::NAVY;
+    }
+
+    if app.keyboard.is_down(KeyCode::I) {
+        state.text_color = Color::MAGENTA;
+    }
+
+    if app.keyboard.is_down(KeyCode::P) {
+        state.text_color = Color::BLACK;
+    }
+
+    if app.keyboard.is_down(KeyCode::O) {
+        state.text_color = Color::WHITE;
     }
 
     if app.mouse.left_is_down() {
         state.speed = 0.0;
-    }
-
-    if app.keyboard.is_down(KeyCode::M) {
-        state.text_color = Color::MAGENTA;
     }
 
     let time = app.timer.time_since_init();
@@ -191,7 +191,7 @@ fn update(app: &mut App, state: &mut State) {
     let g = (time + 5.0).sin() * 0.5 + 0.5;
     let b = (time + 10.0).sin() * 0.5 + 0.5;
 
-    if app.keyboard.is_down(KeyCode::Key1) && app.keyboard.is_down(KeyCode::Key2) && app.keyboard.is_down(KeyCode::Key3){
+    if app.keyboard.is_down(KeyCode::A) && app.keyboard.is_down(KeyCode::S) && app.keyboard.is_down(KeyCode::D){
         state.background_color = Color::new(r,g,b,1.0);
         state.text_color = Color::new(b,r,g,1.0);
     }
