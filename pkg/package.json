@@ -1,0 +1,12 @@
+{
+  "name": "speed_reader",
+  "version": "0.1.0",
+  "files": [
+    "speed_reader_bg.wasm",
+    "speed_reader.js",
+    "speed_reader.d.ts"
+  ],
+  "module": "speed_reader.js",
+  "types": "speed_reader.d.ts",
+  "sideEffects": false
+}
