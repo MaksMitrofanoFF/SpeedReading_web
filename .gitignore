@@ -1,6 +1,5 @@
 /.idea
 /target
-/pkg
 /Cargo.lock
 /win64
 *.iml
