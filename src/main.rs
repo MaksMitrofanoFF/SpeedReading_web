@@ -224,7 +224,7 @@ fn draw(app: &mut App, gfx: &mut Graphics, state: &mut State) {
     // Just UI Text
     if state.dragging == 0 {
         if state.words.is_empty() {
-            let text = "Перетащите сюда текстовый файл";
+            let text = "Перетащите сюда файл .txt";
             draw.text(&state.font, text)
                 .color(Color::ORANGE)
                 .size(30.0)
